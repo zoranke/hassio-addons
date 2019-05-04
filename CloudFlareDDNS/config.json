@@ -2,7 +2,7 @@
     "name": "CloudFlareDDNS", 
     "version": "0.1", 
     "slug": "CloudFlareDDNS", 
-    "description": "CloudFlareDDNS - Dynamic DNS CLI for [CloudFlareDDNS]", 
+    "description": "CloudFlareDDNS - Dynamic DNS for CloudFlare", 
     "url": "https://github.com/zoranke/hassio-addons/tree/master/CloudFlareDDNS", 
     "startup": "application", 
     "boot": "auto",  
@@ -11,18 +11,17 @@
     "map": [
     ], 
     "options": {
-        "akid":"ALIYUN's AccessKey-ID",
-        "aksct":"ALIYUN's AccessKey-Secret",
-        "domain":"ddns.aliyun.win",
-        "redo":"600"
+        "akid":"API_KEY",
+        "SUBDOMAIN":"SUBDOMAIN",
+        "domain":"ZONE",
+        "EMAIL ":"hello@example.com"
     }, 
     "schema": {
         "akid":"str",
         "aksct":"str",
         "domain":"str",
-        "redo":"int?",
-        "ipapi":"url?"
+        "SUBDOMAIN":"str"
     },
     "arch": [ "armhf", "armv7", "aarch64", "amd64", "i386"],
-    "image": "neroxps/{arch}-aliddns-addon"
+    "image": "oznu/s6-alpine:3.7r2-${S6_ARCH:-amd64}"
 }
