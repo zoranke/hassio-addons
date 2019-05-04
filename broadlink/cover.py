@@ -1,15 +1,16 @@
 """Support for Cover devices."""
-from datetime import timedelta
 import asyncio
 import logging
 import binascii
+from datetime import timedelta
 import socket
 import os.path
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 
+
 from homeassistant.components.cover import (CoverDevice, PLATFORM_SCHEMA, SUPPORT_OPEN, SUPPORT_CLOSE)
-from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_OPEN, STATE_CLOSED)
+from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_OPEN, STATE_CLOSED,STATE_OPENING, STATE_CLOSING)
 from homeassistant.helpers.event import track_utc_time_change
 from homeassistant.helpers.event import async_track_state_change
 from homeassistant.helpers.entity import async_generate_entity_id
@@ -24,6 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_NAME = 'Broadlink Cover'
 DEFAULT_TIMEOUT = 10
+SCAN_INTERVAL = timedelta(seconds=15)
 
 CONF_COMMAND_OPEN = 'command_open'
 CONF_COMMAND_CLOSE = 'command_close'
@@ -140,12 +142,12 @@ class RMCover(CoverDevice,RestoreEntity):
     def _async_update_pos(self, state):
         if state.state in ('false', STATE_CLOSED, 'off'):
             if self._device_class == 'window':
-                self._position = 0
-            self._closed = True
+               self._position = 0
+               self._closed = True
         else:
             self._closed = False
             if self._position == 0:
-                self._position = 100
+               self._position = 100
 
 
     @asyncio.coroutine
@@ -154,8 +156,36 @@ class RMCover(CoverDevice,RestoreEntity):
             return
         self._async_update_pos(new_state)
         yield from self.async_update_ha_state()
+    
+    @property
+    def current_cover_position(self):
+        """Return current position of cover.
+        None is unknown, 0 is closed, 100 is fully open.
+        """
+        pass
 
+    @property
+    def current_cover_tilt_position(self):
+        """Return current position of cover tilt.
+        None is unknown, 0 is closed, 100 is fully open.
+        """
+        pass
 
+    @property
+    def state(self):
+        """Return the state of the cover."""
+        if self.is_opening:
+            return STATE_OPENING
+        if self.is_closing:
+            return STATE_CLOSING
+
+        closed = self.is_closed
+
+        if closed is None:
+            return None
+
+        return STATE_CLOSED if closed else STATE_OPEN
+    
     @property
     def device_state_attributes(self):
         if self._device_class == 'window':
@@ -314,9 +344,9 @@ class RMCover(CoverDevice,RestoreEntity):
             self._travel -= 1
 
             if self._travel == 0:
-                self.stop_cover()
+               self.stop_cover()
 
-            self.schedule_update_ha_state()
+            self.schedule_update_hass_state()
 
 
     def _sendpacket(self, packet, retry=2):
