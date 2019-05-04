@@ -3,7 +3,7 @@
     "version":"0.0.5",
     "slug":"frp",
     "description":"frp",
-    "url":"https://github.com/neroxps/hassio-addons/tree/master/frp",
+    "url":"https://github.com/zoranke/hassio-addons/tree/master/frp",
     "startup":"initialize",
     "boot":"auto",
     "host_network":true,
