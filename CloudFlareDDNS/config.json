@@ -1,9 +1,9 @@
 {
-    "name": "aliddns", 
-    "version": "0.1.0", 
-    "slug": "aliddns", 
-    "description": "ALiDDNS - Dynamic DNS CLI for [aliyun.com]", 
-    "url": "https://github.com/neroxps/hassio-addons/tree/master/aliddns", 
+    "name": "CloudFlareDDNS", 
+    "version": "0.1", 
+    "slug": "CloudFlareDDNS", 
+    "description": "CloudFlareDDNS - Dynamic DNS CLI for [CloudFlareDDNS]", 
+    "url": "https://github.com/zoranke/hassio-addons/tree/master/CloudFlareDDNS", 
     "startup": "application", 
     "boot": "auto",  
     "ports": {
