@@ -4,9 +4,9 @@ services:
   - docker
 
 env:
-  - S6_ARCH=amd64 DOCKERFILE="Dockerfile" TAG_SUFFIX=""
-  - S6_ARCH=armhf DOCKERFILE="Dockerfile" TAG_SUFFIX="armhf"
-  - S6_ARCH=aarch64 DOCKERFILE="Dockerfile" TAG_SUFFIX="aarch64"
+  - ARCH=amd64 DOCKERFILE="Dockerfile" TAG_SUFFIX=""
+  - ARCH=armhf DOCKERFILE="Dockerfile" TAG_SUFFIX="armhf"
+  - ARCH=aarch64 DOCKERFILE="Dockerfile" TAG_SUFFIX="aarch64"
 
 script:
   - sudo apt-get --yes --no-install-recommends install binfmt-support qemu-user-static
