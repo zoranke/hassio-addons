@@ -11,17 +11,19 @@
     "map": [
     ], 
     "options": {
-        "akid":"API_KEY",
-        "SUBDOMAIN":"SUBDOMAIN",
-        "domain":"ZONE",
-        "EMAIL ":"hello@example.com"
+        "API_KEY":"API_KEY",
+        "EMAIL":"hello@example.com",
+        "ZONE":"@example.com",
+        "SUBDOMAIN":"SUBDOMAIN"
+       
+        
     }, 
     "schema": {
-        "akid":"str",
-        "aksct":"str",
-        "domain":"str",
+        "API_KEY":"str",
+        "EMAIL":"str",
+        "ZONE":"str",
         "SUBDOMAIN":"str"
     },
     "arch": [ "armhf", "armv7", "aarch64", "amd64", "i386"],
-    "image": "oznu/s6-alpine:3.7r2-${S6_ARCH:-amd64}"
+    "image": "oznu/alpine:3.7r2-${ARCH:-amd64}"
 }
